@@ -2,14 +2,13 @@
 
 The goal of this project is to write a simple template expander in C.  This will be used to generate a series of "form letters" to be sent to students with their marks and grades.
 
-The input to this program will be two files:
+The input to this program will be a single file:
 
-- `template.txt`: this contains the text that needs to be sent, but has some placeholders (described below) that need to be expanded.
 - `students.csv`: This is a CSV (comma-separated values) file that contains a list of students for whom you need to create the form letters.
 
 ## Template expansion
 
-Consider the following template file:
+Consider the following template - the template can be written as a single string in your code:
 
 ```
 To,
@@ -77,7 +76,7 @@ iop567.txt
 
 ## Problem statement
 
-Write a program in C that will read the template file and the CSV file, and generate a set of output files in the correct format.
+A detailed set of steps for solving the problem are given below.  You need to demonstrate the output of the template expander to the TAs.  Note that you can skip straight to the end and demonstrate just the final code.  The intermediate files are given as helping stages, and will be evaluated for partial credit if the overall problem is not solved.
 
 ## Requirements and Useful Information
 
@@ -93,8 +92,13 @@ Define functions for the following:
 
 ### Useful functions
 
+- [`fgets`](https://en.cppreference.com/w/c/io/fgets)
+- [`fscanf`](https://en.cppreference.com/w/c/io/fscanf)
+- [`sprintf` and `fprintf`](https://en.cppreference.com/w/c/io/fprintf)
+
+Other useful functions - not strictly needed here but can be used to generalize.
+
 - [`strtok`](https://en.cppreference.com/w/c/string/byte/strtok)
-- [`sprintf`](https://en.cppreference.com/w/c/io/fprintf)
 - [`strstr`](https://en.cppreference.com/w/c/string/byte/strstr)
 
 You should be able to read the CSV file using the `strtok` function, but you can also use any other C functions if needed.  The `sprintf` function can be used to generate the filenames into which you need to save the outputs, and also to generate the output if needed (although you can also use `fprintf` directly for that).
@@ -103,4 +107,26 @@ The `strstr` function can be useful to find placeholders and replace them with f
 
 ## Assignment
 
-Demonstrate the template expander code to the TA.  You should *NOT* hard-code the template or the variables in your program, but should do it according to what you find in the template text file.
+You are given the following pieces of code as starters for the various steps involved.  You need to complete the corresponding codes and demonstrate them working to the TAs.
+
+### Step 1: struct declaration and printing
+
+The file `1_template_struct.c` contains some code that has a partial definition of a `struct`.  Structs were covered in Week 8, and are used to organize data into records.  Here we will define a struct, assign initial values to it, and write a function to print it out.
+
+### Step 2: compute grade
+
+Given a struct as input, write a function that will compute the grade from the mark, and update the struct.  
+
+Modify the previous function to also print out the grade as shown in the example.
+
+### Step 3: read lines into struct with fgets and sscanf
+
+The `fgets` function can be used to read a string from a file into a buffer, and then `sscanf` function can be used to read formatted data from a string into other variables.  Here we will use a special format string that allows us to easily read the CSV file.  The function should return the total number of records that have been read so far.
+
+Use the previous functions to compute the grades for each record, and then print out the values.
+
+### Step 4: Fill in template and print
+
+The template is given directly as a string with `%s`, `%d` etc in appropriate places.  You need to create a `printf` function call that will print out the correct output.  Do this for each of the student records.
+
+To write this to a file, you first need to create the name of the file.  Here you can use the `sprintf` function to create the output filename, open it for writing, then use `fprintf` to write to that file.
